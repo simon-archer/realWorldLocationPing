@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BrightnessSlider</title>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <style>
+       * {
+	border: 0;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+:root {
+	--hue: 223;
+	--white: hsl(var(--hue),10%,100%);
+	--gray1: hsl(var(--hue),10%,90%);
+	--gray2: hsl(var(--hue),10%,80%);
+	--gray7: hsl(var(--hue),10%,30%);
+	--gray9: hsl(var(--hue),10%,10%);
+	/* font-size: calc(16px + (48 - 16) * (100vw - 320px) / (1280 - 320)); */
+}
+
+body {
+	background-color: var(--gray9);
+	color: var(--gray1);
+	height: 100vh;
+	display: grid;
+    justify-content: space-around;
+	place-items: center;
+    rotate: 270deg;
+}
+
+/* Main styles */
+.gr-glow {
+	--color: linear-gradient(90deg,hsl(89, 90%, 55%),hsl(89, 90%, 55%) 6em,hsl(89, 90%, 55%) 12em);
+	--percent: 50%;
+	display: flex;
+	align-items: center;
+	position: relative;
+	margin: 0;
+	width: 90vh;
+	height: 0em;
+}
+
+.gr-input {
+	background: var(--gray7) var(--color) no-repeat;
+	background-size: var(--percent) 100%;
+	border-radius: 5em;
+	width: inherit;
+	height: 50vh;
+    margin: 0;
+	-webkit-appearance: none;
+	appearance: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+/* WebKit */
+.gr-input::-webkit-slider-thumb {
+	border: 0;
+	border-radius: 80%;
+	width: 0em;
+	height: 0em;
+	-webkit-appearance: none;
+	appearance: none;
+}
+     </style>
+    <script>
+        window.addEventListener("DOMContentLoaded",() => {
+	const grs = new RangeSlider("#gradient-range");
+});
+
+class RangeSlider {
+	constructor(qs) {
+		this.input = document.querySelector(qs);
+		this.input?.addEventListener("input",this.update.bind(this));
+		this.update();
+		this.timerId = null;
+	}
+    update(e) {
+        let brightness = this.input.defaultValue;
+
+        // when manually set
+        if (e) brightness = e.target?.value;
+        // when initiated
+        else this.input.value = value;
+
+        const min = this.input.min || 0;
+        const max = this.input.max || 255;
+        const percentRaw = (brightness - min) / (max - min) * 100;
+        const percent = +percentRaw.toFixed(2);
+        const handle = percent / 100;
+        const percentStyle = `calc(${percent}% + ${handle}em)`;
+
+        this.input.parentElement?.style.setProperty("--percent",percentStyle);
+        console.log(brightness)
+        
+        clearTimeout(this.timerId);
+        this.timerId = setTimeout(() => {
+            setBrightness(brightness);
+        }, 50);
+    }
+
+}
+
+
+function setBrightness(brightness) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "https://api.particle.io/v1/devices/390053000851363136363935/setBrightness?access_token=2a08124e7e40d9601f4810cb946476c7b146a9f4", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send("args=" + brightness);
+  }
+  
+    </script>
+</head>
+<body>
+    <form action="">
+        <span class="gr-glow">
+            <input id="gradient-range" class="gr-input" type="range" value="127" min="0" max="255" step="1" orientation="horizontal" oninput="RangeSlider.update()">
+        </span>
+    </form>
+</body>
+</html>

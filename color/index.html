@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      .sphere {
+        width: 20vw;
+        height: 20vw;
+        border-radius: 50%;
+        display: inline-block;
+        margin: 20px;
+        
+      }
+      .container {
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
+    <script>
+      $(document).ready(function() {
+        $("#red").click(function() {
+          $.post("https://api.particle.io/v1/devices/320026001347343438323536/led?access_token=0fa5ef51aa0cf342968250cef6602e82b96b99c2", {
+            args: "red"
+          });
+        });
+        $("#green").click(function() {
+          $.post("https://api.particle.io/v1/devices/320026001347343438323536/led?access_token=0fa5ef51aa0cf342968250cef6602e82b96b99c2", {
+            args: "green"
+          });
+        });
+        $("#blue").click(function() {
+          $.post("https://api.particle.io/v1/devices/320026001347343438323536/led?access_token=0fa5ef51aa0cf342968250cef6602e82b96b99c2", {
+            args: "blue"
+          });
+        });
+        $("#black").click(function() {
+          $.post("https://api.particle.io/v1/devices/320026001347343438323536/led?access_token=0fa5ef51aa0cf342968250cef6602e82b96b99c2", {
+            args: "off"
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="sphere" id="red" style="background-color: red;"></div>
+      <div class="sphere" id="green" style="background-color: green;"></div>
+      <div class="sphere" id="blue" style="background-color: blue;"></div>
+      <div class="sphere" id="black" style="background-color: black;"></div>
+    </div>
+  </body>
+</html>
