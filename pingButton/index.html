@@ -70,11 +70,17 @@
                     };
             });
         };
+        function setBrightness(brightness) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "https://api.particle.io/v1/devices/390053000851363136363935/setBrightness?access_token=2a08124e7e40d9601f4810cb946476c7b146a9f4", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send("args=" + brightness);
+        }
     </script>
 </head>
 <body>
     <div class="container">
-        <button></button>
+        <button onmousedown="setBrightness('up')" onmouseup="setBrightness('down')" ontouchstart="setBrightness('up')" ontouchend="setBrightness('down')"></button>
         <div class="background"></div>
     </div>
 </body>
