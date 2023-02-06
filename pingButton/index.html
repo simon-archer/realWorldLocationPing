@@ -54,12 +54,20 @@
         window.onload = function() {
             const container = document.querySelector('.container');
             const button = document.querySelector('button');
+            var toggle = 0;
 
-            button.addEventListener('click', function() {
+            button.addEventListener('mousedown', function() {
                 container.classList.add('filled');
-                setTimeout(function() {
+                toggle = toggle + 1;
+                console.log(toggle)
+            });
+            
+            button.addEventListener('mouseup', function() {
+                    if ( toggle = 1) {
                     container.classList.remove('filled');
-                }, 1000);
+                    toggle = toggle - 1;
+                    console.log(toggle)
+                    };
             });
         };
     </script>
