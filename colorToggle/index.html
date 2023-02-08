@@ -1,0 +1,194 @@
+<html>
+  <head>
+    <title>colorToggle</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      body {
+          background-color: rgb(51, 51, 51);
+          margin: 0;
+          padding: 0;
+      }
+      .image {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            background-size: contain;
+            background-image: url('/colorToggle/Background.png');
+            background-image: url('/Users/simon/Desktop/Particle/colorToggle/Background.png');
+            z-index: 2;
+            pointer-events: none;
+        }
+        .sphere {
+          width: 30vw;
+          height: 30vw;
+          border-radius: 50%;
+          display: inline-block;
+          transition: width 0.5s, height 0.5s, outline 0.5s, outline-offset 0.5s;
+          outline: solid 0px white;
+          outline-offset: 0.0rem;
+          margin:auto;
+        }
+
+        .sphere.filled {
+          width: 25vw;
+          height: 25vw;
+          border-radius: 50%;
+          display: inline-block;
+          transition: width 0.5s, height 0.5s, outline 0.5s, outline-offset 0.5s;
+          outline: solid 15px white;
+          outline-offset: 1.5rem;
+          margin:auto;
+        }
+
+      .container {
+        position: absolute;
+        display: grid;
+        gap: 50px 50px;
+        align-items: center;
+        height: 80vw;
+        width: 80vw;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+      }
+      #pink {
+        grid-row: 1;
+        grid-column: 1;
+      }
+      #green {
+        grid-row: 2;
+        grid-column: 2;
+      }
+      #blue {
+        grid-row: 2;
+        grid-column: 1;
+      }
+      #white {
+        grid-row: 1;
+        grid-column: 2;
+      }
+    </style>
+    <script>
+      $(document).ready(function() {
+        const pinkSphere = document.querySelector('#pink');
+        const greenSphere = document.querySelector('#green');
+        const blueSphere = document.querySelector('#blue');
+        const whiteSphere = document.querySelector('#white');
+        let pink = false;
+        let green = false;
+        let blue = false;
+        let white = false;
+
+        console.log(pink,green,blue,white)
+        $("#pink").click(function() {
+          if (pink =! pink) {
+            $.post("https://api.particle.io/v1/devices/390053000851363136363935/led?access_token=2a08124e7e40d9601f4810cb946476c7b146a9f4", {
+            args: "pink"
+          });
+          pink = pink;
+          green = false;
+          blue = false;
+          white = false;
+          pinkSphere.classList.add("filled")
+          whiteSphere.classList.remove("filled")
+          blueSphere.classList.remove("filled")
+          greenSphere.classList.remove("filled")
+          } else {
+            $.post("https://api.particle.io/v1/devices/390053000851363136363935/led?access_token=2a08124e7e40d9601f4810cb946476c7b146a9f4", {
+            args: "off"
+          });
+            pink = pink;
+          pinkSphere.classList.remove("filled")
+          }
+        console.log(pink,green,blue,white)
+        });
+
+        $("#green").click(function() {
+          if (green =! green) {
+          $.post("https://api.particle.io/v1/devices/390053000851363136363935/led?access_token=2a08124e7e40d9601f4810cb946476c7b146a9f4", {
+            args: "green"
+          });
+          green = green;
+          pink = false;
+          blue = false;
+          white = false;
+          greenSphere.classList.add("filled")
+          pinkSphere.classList.remove("filled")
+          whiteSphere.classList.remove("filled")
+          blueSphere.classList.remove("filled")
+        } else {
+          $.post("https://api.particle.io/v1/devices/390053000851363136363935/led?access_token=2a08124e7e40d9601f4810cb946476c7b146a9f4", {
+            args: "off"
+          });
+          green = green;
+          greenSphere.classList.remove("filled")
+        } 
+        console.log(pink,green,blue,white)
+      });
+
+      $("#blue").click(function() {
+          if (blue =! blue) {
+          $.post("https://api.particle.io/v1/devices/390053000851363136363935/led?access_token=2a08124e7e40d9601f4810cb946476c7b146a9f4", {
+            args: "blue"
+          });
+          blue = blue;
+          pink = false;
+          green = false;
+          white = false;
+          blueSphere.classList.add("filled")
+          greenSphere.classList.remove("filled")
+          pinkSphere.classList.remove("filled")
+          whiteSphere.classList.remove("filled")
+        } else {
+          $.post("https://api.particle.io/v1/devices/390053000851363136363935/led?access_token=2a08124e7e40d9601f4810cb946476c7b146a9f4", {
+            args: "off"
+          });
+          blue = blue;
+          blueSphere.classList.remove("filled")
+        } 
+        console.log(pink,green,blue,white)
+      });
+
+      $("#white").click(function() {
+          if (white =! white) {
+          $.post("https://api.particle.io/v1/devices/390053000851363136363935/led?access_token=2a08124e7e40d9601f4810cb946476c7b146a9f4", {
+            args: "white"
+          });
+          white = white;
+          pink = false;
+          green = false;
+          blue = false;
+          whiteSphere.classList.add("filled")
+          pinkSphere.classList.remove("filled")
+          blueSphere.classList.remove("filled")
+          greenSphere.classList.remove("filled")
+        } else {
+          $.post("https://api.particle.io/v1/devices/390053000851363136363935/led?access_token=2a08124e7e40d9601f4810cb946476c7b146a9f4", {
+            args: "off"
+          });
+          white = white;
+          whiteSphere.classList.remove("filled")
+        } 
+        console.log(pink,green,blue,white)
+      });
+      });
+            function absorbEvent(event) {
+                event.returnValue = false;
+                }
+            let div1 = document.querySelector("div");
+            div1.addEventListener("touchstart", absorbEvent);
+            div1.addEventListener("touchend", absorbEvent);
+            div1.addEventListener("touchmove", absorbEvent);
+            div1.addEventListener("touchcancel", absorbEvent);
+    </script>
+  </head>
+  <body>
+    <div class="image"></div>
+    <div class="container">
+      <div class="sphere" id="pink" style="background-color: #F0A4FF;"></div>
+      <div class="sphere" id="green" style="background-color: #34E0A1;"></div>
+      <div class="sphere" id="blue" style="background-color: #3791FF;"></div>
+      <div class="sphere" id="white" style="background-color: white;"></div>
+    </div>
+  </body>
+</html>
