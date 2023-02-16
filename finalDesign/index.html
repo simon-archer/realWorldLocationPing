@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seat Finder</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </style>
+</head>
+<style>
+  @font-face {
+    font-family: 'SF Pro Rounded';
+    src: url('Font/SF-Pro-Rounded-Semibold.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    /* Dark Grey */
+    background: #333333;
+    width: 100%;
+    height: 100%;
+  }
+
+  h2 {
+    /* width: 221px;
+    height: 117.54px; */
+
+    /* Header 2 */
+
+    font-family: 'SF Pro Rounded';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 34px;
+    line-height: 36px;
+    /* or 106% */
+
+    letter-spacing: 0.41px;
+
+    /* Dark Grey */
+
+    color: #333333;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+  }
+
+  h2#startTime {
+    /* width: 221px;
+    height: 117.54px; */
+
+    /* Header 2 */
+
+    font-family: 'SF Pro Rounded';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 34px;
+    line-height: 36px;
+    /* or 106% */
+
+    letter-spacing: 0.41px;
+
+    /* Blue */
+
+    color: rgba(55, 145, 255, 1);
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+  }
+
+  label {
+    /* width: 178px;
+        height: 34.83px; */
+
+    /* Label */
+
+    font-family: 'SF Pro Rounded';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+    /* or 114% */
+
+    letter-spacing: 0.25px;
+
+    color: #000000;
+
+
+    /* Inside auto layout */
+
+    flex: end;
+    order: 0;
+    flex-grow: 0;
+  }
+
+  p {
+    /* width: 99px;
+        height: 24px; */
+
+    /* Body 1 */
+
+    font-family: 'SF Pro Rounded';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height, or 150% */
+
+    text-align: center;
+    letter-spacing: -0.41px;
+
+    /* Dark Grey */
+
+    color: #333333;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+  }
+
+  #combined {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    isolation: isolate;
+
+    width: 80%;
+    height: 80%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    transition: 0.5s;
+    z-index: 2;
+  }
+
+  .hidden#combined {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    isolation: isolate;
+
+    position: absolute;
+    /* left: calc(50% - 343px/2 - 8px);
+        top: calc(50% - 621px/2 + 0.5px); */
+    left: 50%;
+    top: -28%;
+    transform: translate(-50%, -50%) scale(0.8);
+    transition: 0.5s;
+
+
+  }
+
+  #ticketContainer {
+    /* Auto layout */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    z-index: 1;
+
+  }
+
+  #infoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 0px;
+    gap: 38px;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+
+  }
+
+  #textLogo {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 10px;
+
+    width: 100%;
+    height: 211.37px;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+  }
+
+  #textContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 12px;
+
+    width: 221px;
+    height: 211.37px;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+  }
+
+  #logo {
+    width: 52px;
+    height: 52px;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+  }
+
+  #qr {
+    width: 235px;
+    height: 236px;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+  }
+
+  #seatInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0px;
+
+    width: 303px;
+    height: 57.63px;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    flex-grow: 1;
+  }
+
+  .titleNumber {
+    /* Auto layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+
+    width: 68px;
+    height: 60px;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+  }
+
+  #subtract {
+    position: absolute;
+    width: 342px;
+    height: 621px;
+    left: calc(50% - 342px/2 + 0.5px);
+    top: calc(50% - 621px/2);
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    z-index: 0;
+  }
+
+  .faded {
+    color: #7a7a7a;
+  }
+
+  .button {
+    z-index: 2;
+    display: flex;
+    /* use flex to center the content */
+    justify-content: center;
+    /* center the content horizontally */
+    transition: 0.2s;
+  }
+
+  #seatBtn {
+    background-color: #7B7B7B;
+  }
+  #ticketBtn {
+    background-color: rgba(55, 145, 255, 1);
+  }
+
+  /* #instructionContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    gap: 0px;
+    position: absolute;
+    width: 100%;
+    height: 700px;
+    left: 0px;
+    top: 288px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 20px 3px rgba(0, 0, 0, 0.5);
+    border-radius: 30px 30px 0px 0px;
+  } */
+
+  #pullTab {
+    width: 72px;
+    height: 6px;
+    background: #7B7B7B;
+    border-radius: 20px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+  }
+
+  #top {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    gap: 27px;
+    width: 346px;
+    height: 36px;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+  }
+
+  #title {
+    height: 36px;
+    font-family: 'SF Pro Rounded';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 34px;
+    line-height: 36px;
+    letter-spacing: 0.41px;
+    color: #333333;
+    flex: none;
+    order: 0;
+    flex-grow: 1;
+
+  }
+
+  /* .close {
+    position: absolute;
+    border-radius: 100%;
+    right: 32px;
+    top: 32px;
+    width: 32px;
+    height: 32px;
+    opacity: 0.3;
+  } */
+
+  .close:hover {
+    opacity: 1;
+  }
+
+  /* .close:before,
+  .close:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 33px;
+    width: 2px;
+    background-color: #333;
+  }
+
+  .close:before {
+    transform: rotate(45deg);
+  }
+
+  .close:after {
+    transform: rotate(-45deg);
+  } */
+
+
+  #explenationImage {
+    width: 200px;
+    height: 200px;
+  }
+
+  #collection {
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    display: inline;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    box-shadow: 0px 0px 20px 3px rgba(0, 0, 0, 0.5);
+    border-radius: 30px 30px 0px 0px;
+  }
+
+  #instructionText {
+    position: auto;
+    width: 350px;
+    height: 72px;
+
+    /* Body 1 */
+
+    font-family: 'SF Pro Text';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+
+    color: #333333;
+
+    flex: none;
+    order: 2;
+    align-self: center;
+    text-align: center;
+    flex-grow: 0;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 3;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-content {
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid white;
+    width: 100%;
+    height: 100%;
+  }
+
+  .modal-header {
+    background-color: #ffffff;
+    color: white;
+    text-align: center;
+    padding: 24px 20px;
+    padding-top: 50px;
+    justify-content: space-between;
+  }
+
+  .modal-body {
+    padding: 20px;
+    text-align: center;
+  }
+
+  .modal-body img {
+    width: 100%;
+  }
+
+  #explenationImage {
+    margin-bottom: 30px;
+  }
+
+  .close {
+    float: right;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .close img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .pingContainer {
+    display: block;
+    height: 65vw;
+    width: 65vw;
+    position: absolute;
+    top: 53%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+
+  .pingBackground {
+    position: absolute;
+    border-radius: 100%;
+    bottom: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    width: 0%;
+    height: 0%;
+    background-color: rgb(255, 255, 255);
+    transition: .5s;
+  }
+
+  .filled .pingBackground {
+    position: absolute;
+    bottom: -50%;
+    left: 50%;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    transition: .5s;
+    background-color: rgb(255, 255, 255);
+
+  }
+
+  button.pingButton {
+    position: absolute;
+    display: block;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    background-color: rgba(4, 4, 4, 0.223);
+    border: none;
+    /* box-shadow: 0 0 0 1000px rgba(4, 4, 4, 0.223); 'border-style' not available (dashed, solid, etc) */
+    z-index: 3;
+  }
+
+  .selectorContainer {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 75%;
+  }
+
+  .selectorCircle {
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+    margin: 0px 20px;
+    cursor: pointer;
+  }
+
+  .selector {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 1;
+  }
+
+  .selectorCircle#pink {
+    border: 5px solid rgba(240, 164, 255, 1);
+  }
+  
+
+  .selectorCircle#blue {
+    border: 5px solid rgba(55, 145, 255, 1); 
+  }
+
+  .selectorCircle#green {
+    border: 5px solid rgba(52, 224, 161, 1);
+  }
+
+  .guideText {
+    color: rgb(255, 255, 255);
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 25%;
+  }
+
+  .selectorExplenation {
+    color: white;
+  }
+
+  .buttonContainer {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    left: 50%;
+    top: 93%;
+    transform: translate(-50%, -50%);
+  }
+
+  .switchButton {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 50px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 18px;
+    margin: 10px;
+  }
+</style>
+
+<body>
+  <div id="combined">
+    <img id="subtract" src="Images/Subtract.png" alt="ticket">
+    <div id="ticketContainer">
+      <div id="seatInfo">
+        <div class="titleNumber">
+          <p class="faded">Entrance</p>
+          <h2>1</h2>
+        </div>
+        <div class="titleNumber">
+          <p class="faded">Row</p>
+          <h2>C2</h2>
+        </div>
+        <div class="titleNumber">
+          <p class="faded">Seat</p>
+          <h2>4</h2>
+        </div>
+      </div>
+      <div id="infoContainer">
+        <div id="textLogo">
+          <div id="textContainer">
+            <label>Helsinki City Orchestra</label>
+            <p>Fri 10.2.2023</p>
+            <h2>Inkinen & Armstrong</h2>
+            <h2 id="startTime">19:00</h2>
+            <p>student 10,00€</p>
+          </div>
+          <img id="logo" src="Images/Logo.png" alt="logo">
+        </div>
+        <img id="qr" src="Images/QR.png" alt="qr-code">
+      </div>
+    </div>
+  </div>
+  <div class="buttonContainer">
+    <div class="button">
+      <div id="ticketBtn" class="switchButton">
+        <p>Ticket</p>
+      </div>
+    </div>
+    <div class="button">
+      <div id="seatBtn" class="switchButton">
+        <p>Seat</p>
+      </div>
+    </div>
+  </div>
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="close"><img src="Images/Close.png" alt="Close Button"></span>
+        <h2>Find your seat</h2>
+      </div>
+      <div class="modal-body">
+        <img id="explenationImage" src="Images/QR.png" alt="Modal Image">
+        <p id="explenationText">Modal Text Modal Text Modal Text Modal Text Modal Text Modal Text Modal Text Modal Text
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="selector">
+    <h2 class="guideText">Hold button to <br>turn on light</h2>
+    <div class="selectorContainer">
+      <div class="selectorCircle" id="pink"></div>
+      <div class="selectorCircle" id="blue"></div>
+      <div class="selectorCircle" id="green"></div>
+    </div>
+    <p class="selectorExplenation">Press the colored circles to <br>change the color of the light</p>
+    <div class="pingContainer">
+      <button class="pingButton" onmousedown="setBrightness('up')" onmouseup="setBrightness('down')"
+        ontouchstart="setBrightness('up')" ontouchend="setBrightness('down')">
+        <p class="selectorExplenation">tap to blink light</p>
+        <div class="pingBackground"></div>
+      </button>
+    </div>
+  </div>
+</body>
+<script>
+  function setBrightness(brightness) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "https://api.particle.io/v1/devices/320026001347343438323536/setBrightness?access_token=18f7768f30626e85d3a05242cc704c55dc170619", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send("args=" + brightness);
+  }
+  window.onload = function () {
+    const container = document.querySelector('.pingContainer');
+    const button = document.querySelector('.pingButton');
+    $.post("https://api.particle.io/v1/devices/320026001347343438323536/led?access_token=18f7768f30626e85d3a05242cc704c55dc170619", {
+      args: "white"
+    });
+
+
+    var toggle = 0;
+
+    button.addEventListener('mousedown', function () {
+      container.classList.add('filled');
+      toggle = toggle + 1;
+      console.log(toggle)
+      $.post("https://api.particle.io/v1/devices/320026001347343438323536/setBrightness?access_token=18f7768f30626e85d3a05242cc704c55dc170619", {
+        args: "up"
+      });
+    });
+
+    button.addEventListener('touchstart', function () {
+      container.classList.add('filled');
+      toggle = toggle + 1;
+      console.log(toggle)
+      $.post("https://api.particle.io/v1/devices/320026001347343438323536/setBrightness?access_token=18f7768f30626e85d3a05242cc704c55dc170619", {
+        args: "up"
+      });
+    });
+
+    button.addEventListener('mouseup', function () {
+      if (toggle = 1) {
+        container.classList.remove('filled');
+        toggle = toggle - 1;
+        $.post("https://api.particle.io/v1/devices/320026001347343438323536/setBrightness?access_token=18f7768f30626e85d3a05242cc704c55dc170619", {
+          args: "down"
+        });
+      };
+    });
+
+    button.addEventListener('touchend', function () {
+      if (toggle = 1) {
+        container.classList.remove('filled');
+        toggle = toggle - 1;
+        $.post("https://api.particle.io/v1/devices/320026001347343438323536/setBrightness?access_token=18f7768f30626e85d3a05242cc704c55dc170619", {
+          args: "down"
+        });
+      };
+    });
+    function absorbEvent(event) {
+      event.returnValue = false;
+    }
+
+    let div1 = document.querySelector("button");
+    div1.addEventListener("touchstart", absorbEvent);
+    div1.addEventListener("touchend", absorbEvent);
+    div1.addEventListener("touchmove", absorbEvent);
+    div1.addEventListener("touchcancel", absorbEvent);
+  };
+
+  const combined = document.getElementById('combined');
+  combined.addEventListener('click', function () {
+    combined.classList.toggle('hidden');
+    if (combined.classList.contains('hidden')) {
+        ticket.style.backgroundColor = "#7B7B7B";
+        seat.style.backgroundColor = "rgba(55, 145, 255, 1)";
+    } else {
+        seat.style.backgroundColor = "#7B7B7B";
+        ticket.style.backgroundColor = "rgba(55, 145, 255, 1)";
+    }
+  });
+
+  const ticket = document.getElementById('ticketBtn');
+  ticket.addEventListener('click', function () {
+    combined.classList.remove('hidden');
+    ticket.style.backgroundColor = "rgba(55, 145, 255, 1)";
+    seat.style.backgroundColor = "#7B7B7B";
+  });
+
+  const seat = document.getElementById('seatBtn');
+  seat.addEventListener('click', function () {
+    combined.classList.add('hidden');
+    ticket.style.backgroundColor = "#7B7B7B";
+    seat.style.backgroundColor = "rgba(55, 145, 255, 1)";
+  });
+
+  const background = document.querySelector("div.pingBackground")
+  const pink = document.querySelector(".selectorCircle#pink");
+  const blue = document.querySelector(".selectorCircle#blue");
+  const green = document.querySelector(".selectorCircle#green");
+
+  pink.onclick = function () {
+    $.post("https://api.particle.io/v1/devices/320026001347343438323536/led?access_token=18f7768f30626e85d3a05242cc704c55dc170619", {
+      args: "pink"
+    });
+    background.style.backgroundColor = "rgba(240, 164, 255, 1)"
+    pink.style.backgroundColor = "rgba(240, 164, 255, 1)";
+    blue.style.backgroundColor = "transparent";
+    green.style.backgroundColor = "transparent";
+  };
+
+  blue.onclick = function () {
+    $.post("https://api.particle.io/v1/devices/320026001347343438323536/led?access_token=18f7768f30626e85d3a05242cc704c55dc170619", {
+      args: "blue"
+    });
+    background.style.backgroundColor = "rgba(55, 145, 255, 1)";
+    blue.style.backgroundColor = "rgba(55, 145, 255, 1)";
+    pink.style.backgroundColor = "transparent";
+    green.style.backgroundColor = "transparent";
+  };
+  green.onclick = function () {
+    $.post("https://api.particle.io/v1/devices/320026001347343438323536/led?access_token=18f7768f30626e85d3a05242cc704c55dc170619", {
+      args: "green"
+    });
+    background.style.backgroundColor = "rgba(52, 224, 161, 1)"
+    green.style.backgroundColor = "rgba(52, 224, 161, 1)";
+    pink.style.backgroundColor = "transparent";
+    blue.style.backgroundColor = "transparent";
+  };
+</script>
+
+</html>
