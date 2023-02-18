@@ -21,11 +21,12 @@ sequenceDiagram
     website -->>particlePhoton: Sends "pink" API request
     
     Note over phone: User holds down button
+    phone-->>website: Triggers API request
     website -->>particlePhoton: Sends "up" API request
     particlePhoton -->>website: LED turns on (pink)
 
     Note over phone: User releases button
-    phone -->>website: Sends "down" API request
+    phone-->>website: Triggers API request
     website -->>particlePhoton: Sends "pink" API request
     particlePhoton -->>website: LED turns off
 
