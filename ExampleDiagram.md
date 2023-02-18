@@ -1,20 +1,32 @@
-## Example Diagram for Interactions
+## Example Diagram for Interactions ###
 Documenting with a diagram depicting the situation where the user sends a ping to the seat LED, and then changes the color to Pink and doing sending another ping.
-
 ```mermaid
-graph LR
-    phone((Phone))-->>|Sends "up" API request| website((Website))
-    website-->>|Sends "down" API request| particlePhoton((Particle Photon))
-    particlePhoton -->> |LED turns on| website
-    website -->> |Sends "pink" API request| particlePhoton
-    particlePhoton -->> |LED turns pink| website
-    website -->> |Sends "up" API request| particlePhoton
-    particlePhoton -->> |LED turns on| website
+sequenceDiagram
+    participant phone
+    participant website
+    participant particlePhoton
+    
+    Note over phone: User holds down button
+    phone-->>website: Triggers API request
+    website-->>particlePhoton: Sends "up" API request
+    particlePhoton -->>website: LED turns on
+    
+    Note over phone: User releases button
+    phone-->>website: Triggers API request
+    website -->>particlePhoton: Sends "down" API request
+    particlePhoton -->>website: LED turns off
+    
+    Note over phone: User changes color
+    phone-->>website: Triggers API request
+    website -->>particlePhoton: Sends "pink" API request
+    
+    Note over phone: User holds down button
+    website -->>particlePhoton: Sends "up" API request
+    particlePhoton -->>website: LED turns on (pink)
 
-    subgraph Additional functionality
-    website --> |Sends "pink" API request| particlePhoton
-    particlePhoton --> |LED turns pink| website
-    website --> |Sends "up" API request| particlePhoton
-    particlePhoton --> |LED turns on| website
-    end
+    Note over phone: User releases button
+    phone -->>website: Sends "down" API request
+    website -->>particlePhoton: Sends "pink" API request
+    particlePhoton -->>website: LED turns off
+
 ```
