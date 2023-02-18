@@ -4,6 +4,9 @@ Documenting with a diagram depicting the situation where the user sends a ping t
 
 ```mermaid
 sequenceDiagram
+participant Phone
+participant Website
+participant particlePhoton
 phone((Phone)) -->>|Sends "up" API request| website((Website))
     website -->>|Sends "down" API request| particlePhoton((Particle Photon))
     particlePhoton -->>|LED turns on| website
